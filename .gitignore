@@ -1,0 +1,14 @@
+*~
+*.swp
+tags
+*.o
+*.log
+a.out
+*.bak
+*.so
+*.a
+*.aux
+*.idx
+*.out
+*.dvi
+*.ini
