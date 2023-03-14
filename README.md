@@ -1,2 +1,2 @@
 # VulkanMinimumApp
-a minimum vulkan app
+A minimum vulkan app
