@@ -16,10 +16,11 @@ class VkApp {
     uint32_t numInstanceExtensions;
 
     std::vector<VkQueueFamilyProperties> queueFamilyProperties;
-    uint32_t queueFimilyPropertiesCount;
+    uint32_t queueFamilyPropertiesCount;
 
     void checkInstanceExtensions();
     void checkPhysicalMemory();
+    void checkQueues();
 
     public:
         VkResult init();

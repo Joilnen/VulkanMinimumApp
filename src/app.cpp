@@ -37,10 +37,9 @@ VkResult VkApp::init()
 
     if (result == VK_SUCCESS) {
         result = vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, nullptr);
-        if (result == VK_SUCCESS)
-            vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &mPhysicalDevice);
 
         if (physicalDeviceCount) {
+            vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &mPhysicalDevice);
             VkDeviceQueueCreateInfo qi {
                 VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
                 nullptr,
@@ -72,11 +71,13 @@ VkResult VkApp::init()
 }
 
 void VkApp::setUp() {
-    std::cout << "* extensions\n";
+    std::cout << "\n* extensions\n";
     checkInstanceExtensions();
     std::cout << std::endl;
-    std::cout << "* memory\n";
+    std::cout << "\n* memory\n";
     checkPhysicalMemory();
+    std::cout << "\n* queues\n";
+    checkQueues();
 }
 
 void VkApp::checkPhysicalMemory() {
@@ -135,12 +136,37 @@ void VkApp::checkPhysicalMemory() {
             auto count2 = 0;
             for (auto m : p.memoryHeaps)
                 if (count2++ == a.heapIndex)
-                    std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
+                    std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n";
         }
     }
     std::cout << "HEAP MEM COUNT " << p.memoryHeapCount << "\n";
-
-    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFimilyPropertiesCount, nullptr);
-    queueFamilyProperties.resize(queueFimilyPropertiesCount);
-    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFimilyPropertiesCount, queueFamilyProperties.data());
 }
+
+void VkApp::checkQueues() {
+    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, nullptr);
+    queueFamilyProperties.resize(queueFamilyPropertiesCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, queueFamilyProperties.data());
+    std::cout << "QUEUE HOW MANY " << queueFamilyPropertiesCount << "\n";
+    for (auto& a : queueFamilyProperties) {
+        if (a.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            std::cout << "QUEUE N " << a.queueCount << "\n";
+            std::cout << "QUEUE TYPE VK_QUEUE_GRAPHICS_BIT\n";
+        }
+
+        if (a.queueFlags & VK_QUEUE_COMPUTE_BIT) {
+            std::cout << "QUEUE N " << a.queueCount << "\n";
+            std::cout << "QUEUE TYPE VK_QUEUE_COMPUTE_BIT\n";
+        }
+
+        if (a.queueFlags & VK_QUEUE_TRANSFER_BIT) {
+            std::cout << "QUEUE N " << a.queueCount << "\n";
+            std::cout << "QUEUE TYPE VK_QUEUE_TRANSFER_BIT\n";
+        }
+
+        if (a.queueFlags & VK_QUEUE_SPARSE_BINDING_BIT) {
+            std::cout << "QUEUE N " << a.queueCount << "\n";
+            std::cout << "QUEUE TYPE VK_QUEUE_SPARSE_BINDING_BIT\n";
+        }
+    }
+}
+
