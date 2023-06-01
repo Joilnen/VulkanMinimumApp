@@ -73,9 +73,11 @@ VkResult VkApp::init()
 void VkApp::setUp() {
     std::cout << "\n* extensions\n";
     checkInstanceExtensions();
-    std::cout << std::endl;
+    std::cout << "\n";
+
     std::cout << "\n* memory\n";
     checkPhysicalMemory();
+
     std::cout << "\n* queues\n";
     checkQueues();
 }
@@ -96,7 +98,7 @@ void VkApp::checkPhysicalMemory() {
             for (auto m : p.memoryHeaps)
                 if (count2++ == a.heapIndex)
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
-            
+
         }
         if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
         {
@@ -134,9 +136,10 @@ void VkApp::checkPhysicalMemory() {
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT\n";
             auto count2 = 0;
-            for (auto m : p.memoryHeaps)
+            for (auto m : p.memoryHeaps) {
                 if (count2++ == a.heapIndex)
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n";
+            }
         }
     }
     std::cout << "HEAP MEM COUNT " << p.memoryHeapCount << "\n";

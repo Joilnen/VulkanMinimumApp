@@ -8,6 +8,7 @@ class VkApp {
     VkApplicationInfo appInfo {  };
     VkInstanceCreateInfo instanceCreateInfo {  };
     VkInstance mInstance;
+
     VkPhysicalDevice mPhysicalDevice {nullptr};
     uint32_t physicalDeviceCount {0};
     VkDevice device;
