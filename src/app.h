@@ -11,6 +11,7 @@ class VkApp {
 
     VkPhysicalDevice mPhysicalDevice {nullptr};
     uint32_t physicalDeviceCount {0};
+
     VkDevice device;
 
     std::vector<VkExtensionProperties> instanceExtensionsProperties;

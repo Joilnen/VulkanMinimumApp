@@ -3,6 +3,18 @@
 
 using namespace std;
 
+void VkApp::setUp() {
+    std::cout << "\n* extensions\n";
+    checkInstanceExtensions();
+    std::cout << "\n";
+
+    std::cout << "\n* memory\n";
+    checkPhysicalMemory();
+
+    std::cout << "\n* queues\n";
+    checkQueues();
+}
+
 void VkApp::shutDown() {
     if (vkDeviceWaitIdle(device) == VK_SUCCESS)  {
         vkDestroyDevice(device, nullptr);
@@ -68,18 +80,6 @@ VkResult VkApp::init()
     cout <<  "Numero de GPUs " << physicalDeviceCount << "\n";
 
     return result;
-}
-
-void VkApp::setUp() {
-    std::cout << "\n* extensions\n";
-    checkInstanceExtensions();
-    std::cout << "\n";
-
-    std::cout << "\n* memory\n";
-    checkPhysicalMemory();
-
-    std::cout << "\n* queues\n";
-    checkQueues();
 }
 
 void VkApp::checkPhysicalMemory() {
@@ -172,4 +172,5 @@ void VkApp::checkQueues() {
         }
     }
 }
+
 
