@@ -4,6 +4,3 @@
 [submodule "VulkanMemoryAllocator"]
 	path = VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
-[submodule "vulkan-guide"]
-	path = vulkan-guide
-	url = https://github.com/vblanco20-1/vulkan-guide
