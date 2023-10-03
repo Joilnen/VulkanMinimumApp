@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "app.h"
 
 using namespace std;
@@ -37,13 +38,22 @@ void VkApp::checkInstanceExtensions()
 
 VkResult VkApp::init()
 {
+    appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = "Application";
     appInfo.applicationVersion = 1.0;
-    appInfo.apiVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.apiVersion = VK_API_VERSION_1_3;
 
+    const char *instaceExtensions[] {"VK_KHR_surface", "VK_KHR_display"};
+    const char *enabledLayers[] {"VK_LAYER_KHRONOS_validation"};
+
+    instanceCreateInfo = {};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pApplicationInfo = &appInfo;
+    instanceCreateInfo.enabledExtensionCount = 2;
+    instanceCreateInfo.ppEnabledExtensionNames = instaceExtensions;
+    instanceCreateInfo.enabledLayerCount = 1;
+    instanceCreateInfo.ppEnabledLayerNames = enabledLayers;
 
     auto result = vkCreateInstance(&instanceCreateInfo, nullptr, &mInstance);
 
@@ -51,29 +61,27 @@ VkResult VkApp::init()
         result = vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, nullptr);
 
         if (physicalDeviceCount) {
+            physicalDeviceCount = 1;
             vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &mPhysicalDevice);
-            VkDeviceQueueCreateInfo qi {
-                VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-                nullptr,
-                0,
-                0,
-                1,
-                nullptr
-            };
 
-            VkDeviceCreateInfo  i {
-                VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
-                nullptr,
-                0,
-                1,
-                &qi,
-                0,
-                nullptr,
-                0,
-                nullptr,
-                nullptr
-            };
-            result = vkCreateDevice(mPhysicalDevice, &i, nullptr, &device);
+            const float priority = 1.0f;
+
+            VkDeviceQueueCreateInfo qi {};
+            qi.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            qi.queueFamilyIndex = 0;
+            qi.queueCount = 1;
+            qi.pQueuePriorities = &priority;
+
+            const char *deviceExtensions[] {"VK_KHR_swapchain"};
+
+            VkDeviceCreateInfo  di {};
+            di.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+            di.queueCreateInfoCount = 1;
+            di.pQueueCreateInfos = &qi;
+            di.enabledExtensionCount = 1;
+            di.ppEnabledExtensionNames = deviceExtensions;
+
+            result = vkCreateDevice(mPhysicalDevice, &di, nullptr, &device);
         }
     }
 

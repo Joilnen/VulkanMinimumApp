@@ -5,11 +5,11 @@
 #include <vulkan/vulkan.h>
 
 class VkApp {
-    VkApplicationInfo appInfo {  };
-    VkInstanceCreateInfo instanceCreateInfo {  };
+    VkApplicationInfo appInfo {};
+    VkInstanceCreateInfo instanceCreateInfo {};
     VkInstance mInstance;
 
-    VkPhysicalDevice mPhysicalDevice {nullptr};
+    VkPhysicalDevice mPhysicalDevice {VK_NULL_HANDLE};
     uint32_t physicalDeviceCount {0};
 
     VkDevice device;
