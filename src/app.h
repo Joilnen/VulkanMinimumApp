@@ -4,7 +4,7 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 
-class VkApp {
+class VulkanApp {
     VkApplicationInfo appInfo {};
     VkInstanceCreateInfo instanceCreateInfo {};
     VkInstance mInstance;
@@ -26,6 +26,7 @@ class VkApp {
 
     public:
         VkResult init();
+        VkResult createDevice();
         void setUp();
         void shutDown();
 };

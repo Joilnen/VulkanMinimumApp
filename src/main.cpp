@@ -3,7 +3,7 @@
 
 int main()
 {
-    VkApp vkApp;
+    VulkanApp vkApp;
     if(vkApp.init() == VK_SUCCESS)
         vkApp.setUp();
     vkApp.shutDown();

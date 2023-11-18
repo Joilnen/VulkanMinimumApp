@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void VkApp::setUp() {
+void VulkanApp::setUp() {
     std::cout << "\n* extensions\n";
     checkInstanceExtensions();
     std::cout << "\n";
@@ -16,14 +16,14 @@ void VkApp::setUp() {
     checkQueues();
 }
 
-void VkApp::shutDown() {
+void VulkanApp::shutDown() {
     if (vkDeviceWaitIdle(device) == VK_SUCCESS)  {
         vkDestroyDevice(device, nullptr);
         vkDestroyInstance(mInstance, nullptr);
     }
 }
 
-void VkApp::checkInstanceExtensions()
+void VulkanApp::checkInstanceExtensions()
 {
     vkEnumerateInstanceExtensionProperties(nullptr, &numInstanceExtensions, nullptr);
 
@@ -36,7 +36,7 @@ void VkApp::checkInstanceExtensions()
     }
 }
 
-VkResult VkApp::init()
+VkResult VulkanApp::init()
 {
     appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -90,7 +90,13 @@ VkResult VkApp::init()
     return result;
 }
 
-void VkApp::checkPhysicalMemory() {
+VkResult VulkanApp::createDevice()
+{
+
+    return (VkResult) 0;
+}
+
+void VulkanApp::checkPhysicalMemory() {
     VkPhysicalDeviceMemoryProperties p;
     vkGetPhysicalDeviceMemoryProperties(mPhysicalDevice, &p);
 
@@ -153,7 +159,7 @@ void VkApp::checkPhysicalMemory() {
     std::cout << "HEAP MEM COUNT " << p.memoryHeapCount << "\n";
 }
 
-void VkApp::checkQueues() {
+void VulkanApp::checkQueues() {
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, nullptr);
     queueFamilyProperties.resize(queueFamilyPropertiesCount);
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, queueFamilyProperties.data());
