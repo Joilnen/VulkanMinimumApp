@@ -1,6 +1,9 @@
 #ifndef VKAPP_H
 #define VKAPP_H
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_vulkan.h>
+
 #include <vector>
 #include <vulkan/vulkan.h>
 
@@ -23,12 +26,21 @@ class VulkanApp {
     void checkInstanceExtensions();
     void checkPhysicalMemory();
     void checkQueues();
+    void createWindow();
+
+    SDL_Window *_window;
+    unsigned int _windowWidth;
+    unsigned int _windowHeight;
+
+    bool _isWindowCreated {false};
+    void run();
 
     public:
         VkResult init();
-        VkResult createDevice();
         void setUp();
         void shutDown();
+        VkResult createDevice();
+        VkResult createSwapChain();
 };
 
 #endif

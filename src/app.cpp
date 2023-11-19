@@ -187,4 +187,59 @@ void VulkanApp::checkQueues() {
     }
 }
 
+VkResult VulkanApp::createSwapChain() {
+
+
+    return (VkResult) 0;
+}
+
+void VulkanApp::createWindow() {
+	// We initialize SDL and create a window with it.
+	SDL_Init(SDL_INIT_VIDEO);
+
+	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
+
+	_window = SDL_CreateWindow(
+        "Vulkan Engine",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        _windowWidth,
+        _windowHeight,
+        window_flags
+	);
+
+	_isWindowCreated = true;
+}
+
+/****
+void VulkanEngine::cleanup()
+{
+	if (_isInitialized) {
+
+		SDL_DestroyWindow(_window);
+	}
+}
+
+void VulkanEngine::draw()
+{
+	//nothing yet
+}
+****/
+
+void VulkanApp::run()
+{
+	SDL_Event e;
+	bool bQuit = false;
+
+	//main loop
+	while (!bQuit)
+	{
+		while (SDL_PollEvent(&e) != 0)
+		{
+			if (e.type == SDL_QUIT) bQuit = true;
+		}
+
+		// draw();
+	}
+}
 
