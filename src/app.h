@@ -28,19 +28,18 @@ class VulkanApp {
     void checkQueues();
     void createWindow();
 
-    SDL_Window *_window;
-    unsigned int _windowWidth;
-    unsigned int _windowHeight;
+    SDL_Window *_window {nullptr};
+    VkExtent2D _windowExtent;
 
     bool _isWindowCreated {false};
-    void run();
+    VkResult createDevice();
+    VkResult createSwapChain();
 
     public:
         VkResult init();
         void setUp();
+        void run();
         void shutDown();
-        VkResult createDevice();
-        VkResult createSwapChain();
 };
 
 #endif

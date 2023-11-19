@@ -4,8 +4,10 @@
 int main()
 {
     VulkanApp vkApp;
-    if(vkApp.init() == VK_SUCCESS)
+    if(vkApp.init() == VK_SUCCESS) {
         vkApp.setUp();
+        vkApp.run();
+    }
     vkApp.shutDown();
 
     return 0;

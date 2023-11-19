@@ -14,6 +14,9 @@ void VulkanApp::setUp() {
 
     std::cout << "\n* queues\n";
     checkQueues();
+
+    std::cout << "\n* create window\n";
+    createWindow();
 }
 
 void VulkanApp::shutDown() {
@@ -203,8 +206,8 @@ void VulkanApp::createWindow() {
         "Vulkan Engine",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        _windowWidth,
-        _windowHeight,
+        _windowExtent.width,
+        _windowExtent.height,
         window_flags
 	);
 
@@ -226,19 +229,15 @@ void VulkanEngine::draw()
 }
 ****/
 
-void VulkanApp::run()
-{
+void VulkanApp::run() {
 	SDL_Event e;
 	bool bQuit = false;
 
 	//main loop
-	while (!bQuit)
-	{
-		while (SDL_PollEvent(&e) != 0)
-		{
+	while (!bQuit) {
+        while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT) bQuit = true;
 		}
-
 		// draw();
 	}
 }
