@@ -8,17 +8,21 @@
 #include <vulkan/vulkan.h>
 
 class VulkanApp {
+    // instance
     VkApplicationInfo appInfo {};
     VkInstanceCreateInfo instanceCreateInfo {};
     VkInstance mInstance;
 
+    // instance extensions
+    std::vector<VkExtensionProperties> instanceExtensionsProperties;
+    uint32_t numInstanceExtensions;
+
+    // physical device
     VkPhysicalDevice mPhysicalDevice {VK_NULL_HANDLE};
     uint32_t physicalDeviceCount {0};
 
+    // logical device
     VkDevice device;
-
-    std::vector<VkExtensionProperties> instanceExtensionsProperties;
-    uint32_t numInstanceExtensions;
 
     std::vector<VkQueueFamilyProperties> queueFamilyProperties;
     uint32_t queueFamilyPropertiesCount;
@@ -29,6 +33,7 @@ class VulkanApp {
     void createWindow();
 
     SDL_Window *_window {nullptr};
+    SDL_vulkanSurface _surface;
     VkExtent2D _windowExtent;
 
     bool _isWindowCreated {false};

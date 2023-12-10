@@ -26,8 +26,7 @@ void VulkanApp::shutDown() {
     }
 }
 
-void VulkanApp::checkInstanceExtensions()
-{
+void VulkanApp::checkInstanceExtensions() {
     vkEnumerateInstanceExtensionProperties(nullptr, &numInstanceExtensions, nullptr);
 
     std::cout << "NUM EXT " << numInstanceExtensions << "\n";
@@ -39,8 +38,7 @@ void VulkanApp::checkInstanceExtensions()
     }
 }
 
-VkResult VulkanApp::init()
-{
+VkResult VulkanApp::init() {
     appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = "Application";
@@ -93,8 +91,7 @@ VkResult VulkanApp::init()
     return result;
 }
 
-VkResult VulkanApp::createDevice()
-{
+VkResult VulkanApp::createDevice() {
 
     return (VkResult) 0;
 }
@@ -212,6 +209,9 @@ void VulkanApp::createWindow() {
 	);
 
 	_isWindowCreated = true;
+
+    SDL_Vulkan_CreateSurface(_window, mInstance, &_surface);
+
 }
 
 /****
