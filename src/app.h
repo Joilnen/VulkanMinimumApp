@@ -24,6 +24,9 @@ class VulkanApp {
     // logical device
     VkDevice device;
 
+    // images to present
+    VkImage *_images;
+
     std::vector<VkQueueFamilyProperties> queueFamilyProperties;
     uint32_t queueFamilyPropertiesCount;
 

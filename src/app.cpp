@@ -200,7 +200,11 @@ VkResult VulkanApp::createSwapChain() {
     createSwapchainInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
 
     // vkCreateSwapchainKHR()
-
+    VkSwapchainKHR swapchain = nullptr;
+    uint32_t count;
+    vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr);
+    _images = new VkImage[count];
+    vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
 
     return (VkResult) 0;
 }
