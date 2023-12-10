@@ -188,6 +188,18 @@ void VulkanApp::checkQueues() {
 }
 
 VkResult VulkanApp::createSwapChain() {
+    VkSwapchainCreateInfoKHR createSwapchainInfo {};
+    createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+    createSwapchainInfo.surface = _surface;
+    createSwapchainInfo.minImageCount = 4;
+    createSwapchainInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
+    createSwapchainInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+    createSwapchainInfo.imageExtent = _windowExtent;
+    createSwapchainInfo.imageArrayLayers = 1;
+    createSwapchainInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+    createSwapchainInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+
+    // vkCreateSwapchainKHR()
 
 
     return (VkResult) 0;
@@ -211,7 +223,6 @@ void VulkanApp::createWindow() {
 	_isWindowCreated = true;
 
     SDL_Vulkan_CreateSurface(_window, mInstance, &_surface);
-
 }
 
 /****
