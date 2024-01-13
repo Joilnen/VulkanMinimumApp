@@ -7,6 +7,8 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 
+#define VK_USE_PLATFORM_XLIB_KHR
+
 class VulkanApp {
     // instance
     VkApplicationInfo appInfo {};
@@ -33,15 +35,20 @@ class VulkanApp {
     void checkInstanceExtensions();
     void checkPhysicalMemory();
     void checkQueues();
-    void createWindow();
+    VkResult createWindow();
+
+    void physicalDeviceInformation();
 
     SDL_Window *_window {nullptr};
+    size_t _windowHandle;
     SDL_vulkanSurface _surface;
     VkExtent2D _windowExtent;
 
     bool _isWindowCreated {false};
     VkResult createDevice();
     VkResult createSwapChain();
+
+    const char **sdlInstanceExtentions;
 
     public:
         VkResult init();

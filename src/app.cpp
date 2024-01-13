@@ -12,11 +12,17 @@ void VulkanApp::setUp() {
     std::cout << "\n* memory\n";
     checkPhysicalMemory();
 
+    std::cout << "\n* device\n";
+    createDevice();
+
     std::cout << "\n* queues\n";
     checkQueues();
 
     std::cout << "\n* create window\n";
     createWindow();
+
+    std::cout << "\nx create swapchain (not working yet)\n";
+    createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -28,7 +34,6 @@ void VulkanApp::shutDown() {
 
 void VulkanApp::checkInstanceExtensions() {
     vkEnumerateInstanceExtensionProperties(nullptr, &numInstanceExtensions, nullptr);
-
     std::cout << "NUM EXT " << numInstanceExtensions << "\n";
     if (numInstanceExtensions) {
         instanceExtensionsProperties.resize(numInstanceExtensions);
@@ -65,26 +70,9 @@ VkResult VulkanApp::init() {
             physicalDeviceCount = 1;
             vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &mPhysicalDevice);
 
-            const float priority = 1.0f;
-
-            VkDeviceQueueCreateInfo qi {};
-            qi.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-            qi.queueFamilyIndex = 0;
-            qi.queueCount = 1;
-            qi.pQueuePriorities = &priority;
-
-            const char *deviceExtensions[] {"VK_KHR_swapchain"};
-
-            VkDeviceCreateInfo  di {};
-            di.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-            di.queueCreateInfoCount = 1;
-            di.pQueueCreateInfos = &qi;
-            di.enabledExtensionCount = 1;
-            di.ppEnabledExtensionNames = deviceExtensions;
-
-            result = vkCreateDevice(mPhysicalDevice, &di, nullptr, &device);
         }
     }
+
 
     cout <<  "Numero de GPUs " << physicalDeviceCount << "\n";
 
@@ -92,8 +80,27 @@ VkResult VulkanApp::init() {
 }
 
 VkResult VulkanApp::createDevice() {
+    const float priority = 1.0f;
 
-    return (VkResult) 0;
+    VkDeviceQueueCreateInfo qi {};
+    qi.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    qi.queueFamilyIndex = 0;
+    qi.queueCount = 1;
+    qi.pQueuePriorities = &priority;
+
+    const char *deviceExtensions[] {"VK_KHR_swapchain"};
+
+    VkDeviceCreateInfo  di {};
+    di.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    di.queueCreateInfoCount = 1;
+    di.pQueueCreateInfos = &qi;
+    di.enabledExtensionCount = 1;
+    di.ppEnabledExtensionNames = deviceExtensions;
+
+    auto result = vkCreateDevice(mPhysicalDevice, &di, nullptr, &device);
+    physicalDeviceInformation();
+
+    return result;
 }
 
 void VulkanApp::checkPhysicalMemory() {
@@ -163,7 +170,8 @@ void VulkanApp::checkQueues() {
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, nullptr);
     queueFamilyProperties.resize(queueFamilyPropertiesCount);
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, queueFamilyProperties.data());
-    std::cout << "QUEUE HOW MANY " << queueFamilyPropertiesCount << "\n";
+    std::cout << "QUEUE HOW MANY " << queueFamilyProperties[0].queueCount << "\n";
+
     for (auto& a : queueFamilyProperties) {
         if (a.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
             std::cout << "QUEUE N " << a.queueCount << "\n";
@@ -201,15 +209,19 @@ VkResult VulkanApp::createSwapChain() {
 
     // vkCreateSwapchainKHR()
     VkSwapchainKHR swapchain = nullptr;
+
+    std::cout << "Codigo de erro SWAPCHAIN " << vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
+    std::cout << "\n";
+
     uint32_t count;
     vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr);
     _images = new VkImage[count];
-    vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
+    auto result = vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
 
-    return (VkResult) 0;
+    return result;
 }
 
-void VulkanApp::createWindow() {
+VkResult VulkanApp::createWindow() {
 	// We initialize SDL and create a window with it.
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -226,7 +238,34 @@ void VulkanApp::createWindow() {
 
 	_isWindowCreated = true;
 
-    SDL_Vulkan_CreateSurface(_window, mInstance, &_surface);
+    unsigned int count;
+    SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
+    sdlInstanceExtentions = (const char **) malloc(80 * count * sizeof(char));
+    // SDL_Vulkan_GetInstanceExtensions(_window, &count, sdlInstanceExtentions);
+    // for (int i = 0; i < count; i++)
+    //     cout << "-> " << sdlInstanceExtentions[i] << "\n";
+    /****
+    Display *dpy = XOpenDisplay(NULL);
+
+    VkXlibSurfaceCreateInfoKHR surfCreateInfo = {VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR};
+    surfCreateInfo.dpy = dpy;
+    surfCreateInfo.window = (Window)_windowHandle;
+
+    int scr = DefaultScreen( dpy );
+    if (!vkGetPhysicalDeviceXlibPresentationSupportKHR(mDevice->mPhysicalDevice, mDevice->mGraphicsQueue.mFamilyIdx, dpy, DefaultVisual(dpy, scr)->visualid))
+    {
+        cout << "Vulkan not supported on given X11 window\n";
+    }
+
+    vkCreateXlibSurfaceKHR(mInstance, &surfCreateInfo, 0, &_surface);
+SDL_// Vulkan_CreateSurface(_window, (SDL_vulkanInstance)mInstance, (SDL_vulkanSurface*)&_surface);
+    if (_surface)
+        cout << "SURFACE IS NOT NULL\n";
+    else
+        cout << "SURFACE IS NULL\n";
+
+    ****/
+    return VK_SUCCESS;
 }
 
 /****
@@ -257,3 +296,26 @@ void VulkanApp::run() {
 	}
 }
 
+void VulkanApp::physicalDeviceInformation() {
+    VkPhysicalDeviceProperties pdp;
+    vkGetPhysicalDeviceProperties(mPhysicalDevice, &pdp);
+
+    cout << "API Version " << VK_VERSION_MAJOR(pdp.apiVersion) << ".";
+    cout << VK_VERSION_MINOR(pdp.apiVersion) << "\n";
+
+    cout << "Device name " << pdp.deviceName << "\n";
+    switch (pdp.deviceType)
+    {
+        default:
+            cout << "GPU \n";
+            break;
+        case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+            cout << "GPU INTEGRATED IN MD\n";
+            break;
+        case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+            cout << "GPU INTEGRATED IN MD\n";
+            break;
+        case VK_PHYSICAL_DEVICE_TYPE_CPU:
+            cout << "GPU INTEGRATED IN MD\n";
+    }
+}
