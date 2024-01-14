@@ -18,9 +18,6 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    std::cout << "\n* create window\n";
-    createWindow();
-
     std::cout << "\nx create swapchain (not working yet)\n";
     createSwapChain();
 }
@@ -44,20 +41,44 @@ void VulkanApp::checkInstanceExtensions() {
 }
 
 VkResult VulkanApp::init() {
+	SDL_Init(SDL_INIT_VIDEO);
+
+	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
+
+	_window = SDL_CreateWindow(
+        "Vulkan Engine",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        _windowExtent.width,
+        _windowExtent.height,
+        window_flags
+	);
+
+	_isWindowCreated = true;
+
+    _window = SDL_CreateWindow("Vilkan Minimun", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_VULKAN);
+
+    unsigned int count;
+    SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
+    vector<const char *> instanceExtensions;
+    SDL_Vulkan_GetInstanceExtensions(_window, &count, instanceExtensions.data());
+    instanceExtensions.push_back("VK_KHR_surface");
+    instanceExtensions.push_back("VK_KHR_display");
+
     appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = "Application";
     appInfo.applicationVersion = 1.0;
     appInfo.apiVersion = VK_API_VERSION_1_3;
 
-    const char *instaceExtensions[] {"VK_KHR_surface", "VK_KHR_display"};
+    // const char *instaceExtensions[] {"VK_KHR_surface", "VK_KHR_display"};
     const char *enabledLayers[] {"VK_LAYER_KHRONOS_validation"};
 
     instanceCreateInfo = {};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pApplicationInfo = &appInfo;
-    instanceCreateInfo.enabledExtensionCount = 2;
-    instanceCreateInfo.ppEnabledExtensionNames = instaceExtensions;
+    instanceCreateInfo.enabledExtensionCount = instanceExtensions.size();
+    instanceCreateInfo.ppEnabledExtensionNames = instanceExtensions.data();
     instanceCreateInfo.enabledLayerCount = 1;
     instanceCreateInfo.ppEnabledLayerNames = enabledLayers;
 
@@ -72,7 +93,6 @@ VkResult VulkanApp::init() {
 
         }
     }
-
 
     cout <<  "Numero de GPUs " << physicalDeviceCount << "\n";
 
@@ -223,24 +243,6 @@ VkResult VulkanApp::createSwapChain() {
 
 VkResult VulkanApp::createWindow() {
 	// We initialize SDL and create a window with it.
-	SDL_Init(SDL_INIT_VIDEO);
-
-	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
-
-	_window = SDL_CreateWindow(
-        "Vulkan Engine",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        _windowExtent.width,
-        _windowExtent.height,
-        window_flags
-	);
-
-	_isWindowCreated = true;
-
-    unsigned int count;
-    SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
-    sdlInstanceExtentions = (const char **) malloc(80 * count * sizeof(char));
     // SDL_Vulkan_GetInstanceExtensions(_window, &count, sdlInstanceExtentions);
     // for (int i = 0; i < count; i++)
     //     cout << "-> " << sdlInstanceExtentions[i] << "\n";

@@ -48,8 +48,6 @@ class VulkanApp {
     VkResult createDevice();
     VkResult createSwapChain();
 
-    const char **sdlInstanceExtentions;
-
     public:
         VkResult init();
         void setUp();
