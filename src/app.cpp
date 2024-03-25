@@ -18,8 +18,8 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    std::cout << "\nx create swapchain (not working yet)\n";
-    createSwapChain();
+    // std::cout << "\nx create swapchain (not working yet)\n";
+    // createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -291,9 +291,12 @@ void VulkanApp::run() {
 
 	//main loop
 	while (!bQuit) {
-        while (SDL_PollEvent(&e) != 0) {
-			if (e.type == SDL_QUIT) bQuit = true;
-		}
+      while (SDL_PollEvent(&e) != 0) {
+			    if (e.type == SDL_QUIT) bQuit = true;
+          if (e.type == SDL_KEYDOWN) {
+              if(e.key.keysym.sym == SDLK_q) bQuit = true;
+          }
+		  }
 		// draw();
 	}
 }
