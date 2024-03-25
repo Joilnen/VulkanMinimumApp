@@ -1,0 +1,1 @@
+clang++ main.cpp vulkan_extern.cpp vulkan_function.cpp -l vulkan -l SDL2 
