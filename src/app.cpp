@@ -18,8 +18,8 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    // std::cout << "\nx create swapchain (not working yet)\n";
-    // createSwapChain();
+    std::cout << "\nx create swapchain (not working yet)\n";
+    createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -108,7 +108,7 @@ VkResult VulkanApp::createDevice() {
     qi.queueCount = 1;
     qi.pQueuePriorities = &priority;
 
-    const char *deviceExtensions[] {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+    const char *deviceExtensions[] {"VK_KHR_swapchain"};
 
     VkDeviceCreateInfo  di {};
     di.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -216,16 +216,10 @@ void VulkanApp::checkQueues() {
 }
 
 VkResult VulkanApp::createSwapChain() {
-
-    VkBool32 supportFormat;
-
     VkSwapchainCreateInfoKHR createSwapchainInfo {};
     createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     createSwapchainInfo.surface = _surface;
     createSwapchainInfo.minImageCount = 4;
-    vkGetPhysicalDeviceSurfaceSupportKHR(mPhysicalDevice, 0, _surface, &supportFormat);
-    if (supportFormat)
-        cout << "FORMATO_SUPPORTADO\n";
     createSwapchainInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
     createSwapchainInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
     createSwapchainInfo.imageExtent = _windowExtent;
@@ -233,8 +227,8 @@ VkResult VulkanApp::createSwapChain() {
     createSwapchainInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     createSwapchainInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
 
-    // create swapchain
-    VkSwapchainKHR swapchain {nullptr};
+    // vkCreateSwapchainKHR()
+    VkSwapchainKHR swapchain = nullptr;
 
     std::cout << "Codigo de erro SWAPCHAIN " << vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
     std::cout << "\n";
@@ -297,12 +291,9 @@ void VulkanApp::run() {
 
 	//main loop
 	while (!bQuit) {
-      while (SDL_PollEvent(&e) != 0) {
-			    if (e.type == SDL_QUIT) bQuit = true;
-          if (e.type == SDL_KEYDOWN) {
-              if(e.key.keysym.sym == SDLK_q) bQuit = true;
-          }
-		  }
+        while (SDL_PollEvent(&e) != 0) {
+			if (e.type == SDL_QUIT) bQuit = true;
+		}
 		// draw();
 	}
 }

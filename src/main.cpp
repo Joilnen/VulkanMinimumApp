@@ -10,8 +10,8 @@ int main()
     if(vkApp.init() == VK_SUCCESS) {
         vkApp.setUp();
         vkApp.run();
-        vkApp.shutDown();
     }
+    vkApp.shutDown();
 
     return 0;
 }

@@ -1,6 +1,8 @@
 #ifndef HELLO_TRIANGLE_H
 #define HELLO_TRIANGLE_H
 
+#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_VULKAN
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 
@@ -34,9 +36,12 @@ struct QueueFamiliesIndices {
 
 class App {
     GLFWwindow *window {nullptr};
-    VkInstance instance;
+    VkInstance instance { VK_NULL_HANDLE };
     VkPhysicalDevice physicalDevice {VK_NULL_HANDLE};
-    VkDevice device;
+    VkDevice device { VK_NULL_HANDLE } ;
+    VkQueue graphicsQueue { VK_NULL_HANDLE } ;
+    VkQueue presentQueue { VK_NULL_HANDLE } ;
+    VkSurfaceKHR surface { VK_NULL_HANDLE };
 
     void createInstance();
     void initWindow();
@@ -46,7 +51,7 @@ class App {
     void mainLoop();
     void cleanup();
     std::vector<const char *> getRequiredExtenstions();
-    QueueFamiliesIndices indices;
+    uint32_t ind;
     QueueFamiliesIndices findQueueFamilies();
     bool isDeviceSuitable();
     void createLogicalDevice();
@@ -58,16 +63,9 @@ class App {
         VkDebugUtilsMessageTypeFlagsEXT messageType,
         const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
         void *pUserData
-    ); 
+    );
     public:
-        void run() {
-            initWindow();
-            initVulkan();
-            pickPhysicalDevice();
-            createLogicalDevice();
-            mainLoop();
-            cleanup();
-        }
+        void run();
 };
 
 #endif

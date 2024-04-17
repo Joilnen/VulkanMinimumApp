@@ -61,6 +61,7 @@ void App::mainLoop() {
 
 void App::cleanup() {
     vkDestroyDevice(device, nullptr);
+    vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
     glfwDestroyWindow(window);
     glfwTerminate();
@@ -94,14 +95,14 @@ VKAPI_ATTR VkBool32 VKAPI_CALL App::debugCallback(
 void App::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
     createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    createInfo.messageSeverity = 
+    createInfo.messageSeverity =
         VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    createInfo.messageType = 
+    createInfo.messageType =
         VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT; 
+        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     createInfo.pfnUserCallback = debugCallback;
 }
 
@@ -147,13 +148,14 @@ int App::rateDeviceSuitability(VkPhysicalDevice device)
 }
 
 QueueFamiliesIndices App::findQueueFamilies() {
+    QueueFamiliesIndices indices;
     uint32_t queueFamilyCount {0};
     vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
     std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
     if (queueFamilyCount)
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
 
-    int i;
+    int i {0};
     for (const auto& queueFamily : queueFamilies) {
         if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
             indices.graphicsFamily = i;
@@ -165,6 +167,7 @@ QueueFamiliesIndices App::findQueueFamilies() {
 
 bool App::isDeviceSuitable() {
     QueueFamiliesIndices f {findQueueFamilies()};
+    ind = f.graphicsFamily.value();
 
     return f.isComplete();
 }
@@ -174,7 +177,7 @@ void App::createLogicalDevice() {
 
     VkDeviceQueueCreateInfo queueCreateInfo {};
     queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-    queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+    queueCreateInfo.queueFamilyIndex = 0;
     queueCreateInfo.queueCount = 1;
     float queuePriority {1.0};
     queueCreateInfo.pQueuePriorities = &queuePriority;
@@ -187,7 +190,7 @@ void App::createLogicalDevice() {
     createInfo.enabledExtensionCount = 0;
 
     if (enabledValidationLayers) {
-        createInfo.enabledLayerCount = 
+        createInfo.enabledLayerCount =
             static_cast<uint32_t>(validationLayers.size());
         createInfo.ppEnabledLayerNames = validationLayers.data();
     }
@@ -195,8 +198,27 @@ void App::createLogicalDevice() {
         createInfo.enabledLayerCount = 0;
     }
 
-    if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) 
+    if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device)
             != VK_SUCCESS) {
         throw std::runtime_error("failed to create logical device");
     }
+
+    vkGetDeviceQueue(device, 0, 0, &presentQueue);
+
+    VkResult err = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+    if (err != VK_SUCCESS)
+        throw std::runtime_error("impossible to set surface");
+
+    // Create Framebuffers
+    int w, h;
+    glfwGetFramebufferSize(window, &w, &h);
+}
+
+void App::run() {
+    initWindow();
+    initVulkan();
+    pickPhysicalDevice();
+    createLogicalDevice();
+    mainLoop();
+    cleanup();
 }
