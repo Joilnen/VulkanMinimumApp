@@ -1,3 +1,0 @@
-/home/joilnen/vulkan_ex/VulkanMinimumApp/build/CMakeFiles/vulkanminimum.dir
-/home/joilnen/vulkan_ex/VulkanMinimumApp/build/CMakeFiles/edit_cache.dir
-/home/joilnen/vulkan_ex/VulkanMinimumApp/build/CMakeFiles/rebuild_cache.dir

@@ -1,1 +1,0 @@
-/usr/bin/clang++ -Wall CMakeFiles/vulkanminimum.dir/main.cpp.o CMakeFiles/vulkanminimum.dir/app.cpp.o -o vulkanminimum  -lvulkan -lSDL2
