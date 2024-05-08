@@ -1,10 +1,10 @@
 CMakeFiles/example_sdl_vulkan.dir/home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imgui_tables.cpp.o: \
   /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imgui_tables.cpp \
-  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/examples/example_sdl_vulkan/../../imgui.h \
-  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/examples/example_sdl_vulkan/../../imconfig.h \
-  /usr/lib/clang/16/include/float.h /usr/lib/clang/16/include/stdarg.h \
-  /usr/lib/clang/16/include/stddef.h \
-  /usr/lib/clang/16/include/__stddef_max_align_t.h /usr/include/string.h \
+  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imgui.h \
+  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imconfig.h \
+  /usr/lib/clang/17/include/float.h /usr/lib/clang/17/include/stdarg.h \
+  /usr/lib/clang/17/include/stddef.h \
+  /usr/lib/clang/17/include/__stddef_max_align_t.h /usr/include/string.h \
   /usr/include/bits/libc-header-start.h /usr/include/features.h \
   /usr/include/features-time64.h /usr/include/bits/wordsize.h \
   /usr/include/bits/timesize.h /usr/include/stdc-predef.h \
@@ -13,7 +13,7 @@ CMakeFiles/example_sdl_vulkan.dir/home/joilnen/vulkan_ex/VulkanMinimumApp/test/i
   /usr/include/bits/types/locale_t.h \
   /usr/include/bits/types/__locale_t.h /usr/include/strings.h \
   /usr/include/assert.h \
-  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/examples/example_sdl_vulkan/../../imgui_internal.h \
+  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imgui_internal.h \
   /usr/include/stdio.h /usr/include/bits/types.h \
   /usr/include/bits/typesizes.h /usr/include/bits/time64.h \
   /usr/include/bits/types/__fpos_t.h \
@@ -58,100 +58,106 @@ CMakeFiles/example_sdl_vulkan.dir/home/joilnen/vulkan_ex/VulkanMinimumApp/test/i
   /usr/include/bits/fp-fast.h \
   /usr/include/bits/mathcalls-helper-functions.h \
   /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
-  /usr/include/bits/iscanonical.h /usr/lib/clang/16/include/limits.h \
+  /usr/include/bits/iscanonical.h /usr/lib/clang/17/include/limits.h \
   /usr/include/limits.h /usr/include/bits/posix1_lim.h \
   /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
   /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
-  /usr/include/bits/uio_lim.h /usr/lib/clang/16/include/immintrin.h \
-  /usr/lib/clang/16/include/x86gprintrin.h \
-  /usr/lib/clang/16/include/hresetintrin.h \
-  /usr/lib/clang/16/include/uintrintrin.h \
-  /usr/lib/clang/16/include/crc32intrin.h \
-  /usr/lib/clang/16/include/prfchiintrin.h \
-  /usr/lib/clang/16/include/raointintrin.h \
-  /usr/lib/clang/16/include/cmpccxaddintrin.h \
-  /usr/lib/clang/16/include/mmintrin.h \
-  /usr/lib/clang/16/include/xmmintrin.h \
-  /usr/lib/clang/16/include/mm_malloc.h \
-  /usr/lib/clang/16/include/emmintrin.h \
-  /usr/lib/clang/16/include/pmmintrin.h \
-  /usr/lib/clang/16/include/tmmintrin.h \
-  /usr/lib/clang/16/include/smmintrin.h \
-  /usr/lib/clang/16/include/popcntintrin.h \
-  /usr/lib/clang/16/include/wmmintrin.h \
-  /usr/lib/clang/16/include/__wmmintrin_aes.h \
-  /usr/lib/clang/16/include/__wmmintrin_pclmul.h \
-  /usr/lib/clang/16/include/clflushoptintrin.h \
-  /usr/lib/clang/16/include/clwbintrin.h \
-  /usr/lib/clang/16/include/avxintrin.h \
-  /usr/lib/clang/16/include/avx2intrin.h \
-  /usr/lib/clang/16/include/f16cintrin.h \
-  /usr/lib/clang/16/include/bmiintrin.h \
-  /usr/lib/clang/16/include/bmi2intrin.h \
-  /usr/lib/clang/16/include/lzcntintrin.h \
-  /usr/lib/clang/16/include/fmaintrin.h \
-  /usr/lib/clang/16/include/avx512fintrin.h \
-  /usr/lib/clang/16/include/avx512vlintrin.h \
-  /usr/lib/clang/16/include/avx512bwintrin.h \
-  /usr/lib/clang/16/include/avx512bitalgintrin.h \
-  /usr/lib/clang/16/include/avx512cdintrin.h \
-  /usr/lib/clang/16/include/avx512vpopcntdqintrin.h \
-  /usr/lib/clang/16/include/avx512vpopcntdqvlintrin.h \
-  /usr/lib/clang/16/include/avx512vnniintrin.h \
-  /usr/lib/clang/16/include/avx512vlvnniintrin.h \
-  /usr/lib/clang/16/include/avxvnniintrin.h \
-  /usr/lib/clang/16/include/avx512dqintrin.h \
-  /usr/lib/clang/16/include/avx512vlbitalgintrin.h \
-  /usr/lib/clang/16/include/avx512vlbwintrin.h \
-  /usr/lib/clang/16/include/avx512vlcdintrin.h \
-  /usr/lib/clang/16/include/avx512vldqintrin.h \
-  /usr/lib/clang/16/include/avx512erintrin.h \
-  /usr/lib/clang/16/include/avx512ifmaintrin.h \
-  /usr/lib/clang/16/include/avx512ifmavlintrin.h \
-  /usr/lib/clang/16/include/avxifmaintrin.h \
-  /usr/lib/clang/16/include/avx512vbmiintrin.h \
-  /usr/lib/clang/16/include/avx512vbmivlintrin.h \
-  /usr/lib/clang/16/include/avx512vbmi2intrin.h \
-  /usr/lib/clang/16/include/avx512vlvbmi2intrin.h \
-  /usr/lib/clang/16/include/avx512pfintrin.h \
-  /usr/lib/clang/16/include/avx512fp16intrin.h \
-  /usr/lib/clang/16/include/avx512vlfp16intrin.h \
-  /usr/lib/clang/16/include/avx512bf16intrin.h \
-  /usr/lib/clang/16/include/avx512vlbf16intrin.h \
-  /usr/lib/clang/16/include/pkuintrin.h \
-  /usr/lib/clang/16/include/vpclmulqdqintrin.h \
-  /usr/lib/clang/16/include/vaesintrin.h \
-  /usr/lib/clang/16/include/gfniintrin.h \
-  /usr/lib/clang/16/include/avxvnniint8intrin.h \
-  /usr/lib/clang/16/include/avxneconvertintrin.h \
-  /usr/lib/clang/16/include/rtmintrin.h \
-  /usr/lib/clang/16/include/xtestintrin.h \
-  /usr/lib/clang/16/include/shaintrin.h \
-  /usr/lib/clang/16/include/fxsrintrin.h \
-  /usr/lib/clang/16/include/xsaveintrin.h \
-  /usr/lib/clang/16/include/xsaveoptintrin.h \
-  /usr/lib/clang/16/include/xsavecintrin.h \
-  /usr/lib/clang/16/include/xsavesintrin.h \
-  /usr/lib/clang/16/include/cetintrin.h \
-  /usr/lib/clang/16/include/adxintrin.h \
-  /usr/lib/clang/16/include/rdseedintrin.h \
-  /usr/lib/clang/16/include/wbnoinvdintrin.h \
-  /usr/lib/clang/16/include/cldemoteintrin.h \
-  /usr/lib/clang/16/include/waitpkgintrin.h \
-  /usr/lib/clang/16/include/movdirintrin.h \
-  /usr/lib/clang/16/include/pconfigintrin.h \
-  /usr/lib/clang/16/include/sgxintrin.h \
-  /usr/lib/clang/16/include/ptwriteintrin.h \
-  /usr/lib/clang/16/include/invpcidintrin.h \
-  /usr/lib/clang/16/include/amxfp16intrin.h \
-  /usr/lib/clang/16/include/keylockerintrin.h \
-  /usr/lib/clang/16/include/amxintrin.h \
-  /usr/lib/clang/16/include/avx512vp2intersectintrin.h \
-  /usr/lib/clang/16/include/avx512vlvp2intersectintrin.h \
-  /usr/lib/clang/16/include/enqcmdintrin.h \
-  /usr/lib/clang/16/include/serializeintrin.h \
-  /usr/lib/clang/16/include/tsxldtrkintrin.h \
-  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/examples/example_sdl_vulkan/../../imstb_textedit.h \
-  /usr/lib/clang/16/include/stdint.h /usr/include/stdint.h \
-  /usr/include/bits/wchar.h /usr/include/bits/stdint-uintn.h
+  /usr/include/bits/uio_lim.h /usr/lib/clang/17/include/immintrin.h \
+  /usr/lib/clang/17/include/x86gprintrin.h \
+  /usr/lib/clang/17/include/hresetintrin.h \
+  /usr/lib/clang/17/include/uintrintrin.h \
+  /usr/lib/clang/17/include/crc32intrin.h \
+  /usr/lib/clang/17/include/prfchiintrin.h \
+  /usr/lib/clang/17/include/raointintrin.h \
+  /usr/lib/clang/17/include/cmpccxaddintrin.h \
+  /usr/lib/clang/17/include/mmintrin.h \
+  /usr/lib/clang/17/include/xmmintrin.h \
+  /usr/lib/clang/17/include/mm_malloc.h \
+  /usr/lib/clang/17/include/emmintrin.h \
+  /usr/lib/clang/17/include/pmmintrin.h \
+  /usr/lib/clang/17/include/tmmintrin.h \
+  /usr/lib/clang/17/include/smmintrin.h \
+  /usr/lib/clang/17/include/popcntintrin.h \
+  /usr/lib/clang/17/include/wmmintrin.h \
+  /usr/lib/clang/17/include/__wmmintrin_aes.h \
+  /usr/lib/clang/17/include/__wmmintrin_pclmul.h \
+  /usr/lib/clang/17/include/clflushoptintrin.h \
+  /usr/lib/clang/17/include/clwbintrin.h \
+  /usr/lib/clang/17/include/avxintrin.h \
+  /usr/lib/clang/17/include/avx2intrin.h \
+  /usr/lib/clang/17/include/f16cintrin.h \
+  /usr/lib/clang/17/include/bmiintrin.h \
+  /usr/lib/clang/17/include/bmi2intrin.h \
+  /usr/lib/clang/17/include/lzcntintrin.h \
+  /usr/lib/clang/17/include/fmaintrin.h \
+  /usr/lib/clang/17/include/avx512fintrin.h \
+  /usr/lib/clang/17/include/avx512vlintrin.h \
+  /usr/lib/clang/17/include/avx512bwintrin.h \
+  /usr/lib/clang/17/include/avx512bitalgintrin.h \
+  /usr/lib/clang/17/include/avx512cdintrin.h \
+  /usr/lib/clang/17/include/avx512vpopcntdqintrin.h \
+  /usr/lib/clang/17/include/avx512vpopcntdqvlintrin.h \
+  /usr/lib/clang/17/include/avx512vnniintrin.h \
+  /usr/lib/clang/17/include/avx512vlvnniintrin.h \
+  /usr/lib/clang/17/include/avxvnniintrin.h \
+  /usr/lib/clang/17/include/avx512dqintrin.h \
+  /usr/lib/clang/17/include/avx512vlbitalgintrin.h \
+  /usr/lib/clang/17/include/avx512vlbwintrin.h \
+  /usr/lib/clang/17/include/avx512vlcdintrin.h \
+  /usr/lib/clang/17/include/avx512vldqintrin.h \
+  /usr/lib/clang/17/include/avx512erintrin.h \
+  /usr/lib/clang/17/include/avx512ifmaintrin.h \
+  /usr/lib/clang/17/include/avx512ifmavlintrin.h \
+  /usr/lib/clang/17/include/avxifmaintrin.h \
+  /usr/lib/clang/17/include/avx512vbmiintrin.h \
+  /usr/lib/clang/17/include/avx512vbmivlintrin.h \
+  /usr/lib/clang/17/include/avx512vbmi2intrin.h \
+  /usr/lib/clang/17/include/avx512vlvbmi2intrin.h \
+  /usr/lib/clang/17/include/avx512pfintrin.h \
+  /usr/lib/clang/17/include/avx512fp16intrin.h \
+  /usr/lib/clang/17/include/avx512vlfp16intrin.h \
+  /usr/lib/clang/17/include/avx512bf16intrin.h \
+  /usr/lib/clang/17/include/avx512vlbf16intrin.h \
+  /usr/lib/clang/17/include/pkuintrin.h \
+  /usr/lib/clang/17/include/vpclmulqdqintrin.h \
+  /usr/lib/clang/17/include/vaesintrin.h \
+  /usr/lib/clang/17/include/gfniintrin.h \
+  /usr/lib/clang/17/include/avxvnniint8intrin.h \
+  /usr/lib/clang/17/include/avxneconvertintrin.h \
+  /usr/lib/clang/17/include/sha512intrin.h \
+  /usr/lib/clang/17/include/sm3intrin.h \
+  /usr/lib/clang/17/include/sm4intrin.h \
+  /usr/lib/clang/17/include/avxvnniint16intrin.h \
+  /usr/lib/clang/17/include/rtmintrin.h \
+  /usr/lib/clang/17/include/xtestintrin.h \
+  /usr/lib/clang/17/include/shaintrin.h \
+  /usr/lib/clang/17/include/fxsrintrin.h \
+  /usr/lib/clang/17/include/xsaveintrin.h \
+  /usr/lib/clang/17/include/xsaveoptintrin.h \
+  /usr/lib/clang/17/include/xsavecintrin.h \
+  /usr/lib/clang/17/include/xsavesintrin.h \
+  /usr/lib/clang/17/include/cetintrin.h \
+  /usr/lib/clang/17/include/adxintrin.h \
+  /usr/lib/clang/17/include/rdseedintrin.h \
+  /usr/lib/clang/17/include/wbnoinvdintrin.h \
+  /usr/lib/clang/17/include/cldemoteintrin.h \
+  /usr/lib/clang/17/include/waitpkgintrin.h \
+  /usr/lib/clang/17/include/movdirintrin.h \
+  /usr/lib/clang/17/include/pconfigintrin.h \
+  /usr/lib/clang/17/include/sgxintrin.h \
+  /usr/lib/clang/17/include/ptwriteintrin.h \
+  /usr/lib/clang/17/include/invpcidintrin.h \
+  /usr/lib/clang/17/include/amxfp16intrin.h \
+  /usr/lib/clang/17/include/keylockerintrin.h \
+  /usr/lib/clang/17/include/amxintrin.h \
+  /usr/lib/clang/17/include/amxcomplexintrin.h \
+  /usr/lib/clang/17/include/avx512vp2intersectintrin.h \
+  /usr/lib/clang/17/include/avx512vlvp2intersectintrin.h \
+  /usr/lib/clang/17/include/enqcmdintrin.h \
+  /usr/lib/clang/17/include/serializeintrin.h \
+  /usr/lib/clang/17/include/tsxldtrkintrin.h \
+  /home/joilnen/vulkan_ex/VulkanMinimumApp/test/imgui_vulkan/imstb_textedit.h \
+  /usr/lib/clang/17/include/stdint.h /usr/include/stdint.h \
+  /usr/include/bits/wchar.h /usr/include/bits/stdint-uintn.h \
+  /usr/include/bits/stdint-least.h
