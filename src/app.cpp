@@ -41,20 +41,20 @@ void VulkanApp::checkInstanceExtensions() {
 }
 
 VkResult VulkanApp::init() {
-	SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
+    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
 
-	_window = SDL_CreateWindow(
-        "Vulkan Engine",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        _windowExtent.width,
-        _windowExtent.height,
-        window_flags
-	);
+    _window = SDL_CreateWindow(
+          "Vulkan Engine",
+          SDL_WINDOWPOS_UNDEFINED,
+          SDL_WINDOWPOS_UNDEFINED,
+          _windowExtent.width,
+          _windowExtent.height,
+          window_flags
+    );
 
-	_isWindowCreated = true;
+    _isWindowCreated = true;
 
     _window = SDL_CreateWindow("Vilkan Minimun", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_VULKAN);
 
