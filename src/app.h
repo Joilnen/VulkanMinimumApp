@@ -10,6 +10,7 @@
 #define VK_USE_PLATFORM_XLIB_KHR
 
 class VulkanApp {
+
     // instance
     VkApplicationInfo appInfo {};
     VkInstanceCreateInfo instanceCreateInfo {};
@@ -20,8 +21,8 @@ class VulkanApp {
     uint32_t numInstanceExtensions;
 
     // physical device
-    VkPhysicalDevice mPhysicalDevice {VK_NULL_HANDLE};
-    uint32_t physicalDeviceCount {0};
+    VkPhysicalDevice phyDevice { VK_NULL_HANDLE };
+    uint32_t physicalDeviceCount { 0 };
 
     // logical device
     VkDevice device;
@@ -39,12 +40,12 @@ class VulkanApp {
 
     void physicalDeviceInformation();
 
-    SDL_Window *_window {nullptr};
+    SDL_Window *_window { nullptr };
     size_t _windowHandle;
     SDL_vulkanSurface _surface;
     VkExtent2D _windowExtent;
 
-    bool _isWindowCreated {false};
+    bool _isWindowCreated { false };
     VkResult createDevice();
     VkResult createSwapChain();
 

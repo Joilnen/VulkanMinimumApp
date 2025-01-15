@@ -16,7 +16,7 @@ void AcquireNextImage()
                             &frameIndex);
 
     vkWaitForFences(vulkan->device, 1, &vulkan->fences[frameIndex], VK_FALSE, UINT64_MAX);
-    vkResetFences(vulkan->device, 1, &vulkan->fences[frameIndex]);  
+    vkResetFences(vulkan->device, 1, &vulkan->fences[frameIndex]);
 
     commandBuffer = vulkan->commandBuffers[frameIndex];
     image = vulkan->swapchainImages[frameIndex];
@@ -60,7 +60,7 @@ void BeginRenderPass(VkClearColorValue clear_color,VkClearDepthStencilValue clea
 
     render_pass_info.clearValueCount = static_cast<uint32_t>(clearValues.size());
     render_pass_info.pClearValues = clearValues.data();
-	
+
     vkCmdBeginRenderPass(commandBuffer, &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
 }
 

@@ -7,7 +7,6 @@ using namespace std;
 void VulkanApp::setUp() {
     std::cout << "\n* extensions\n";
     checkInstanceExtensions();
-    std::cout << "\n";
 
     std::cout << "\n* memory\n";
     checkPhysicalMemory();
@@ -56,14 +55,14 @@ VkResult VulkanApp::init() {
 
     _isWindowCreated = true;
 
-    _window = SDL_CreateWindow("Vilkan Minimun", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_VULKAN);
+    _window = SDL_CreateWindow("Vilkan Minimun", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
     unsigned int count;
     SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
     vector<const char *> instanceExtensions;
     SDL_Vulkan_GetInstanceExtensions(_window, &count, instanceExtensions.data());
-    instanceExtensions.push_back("VK_KHR_surface");
-    instanceExtensions.push_back("VK_KHR_display");
+    instanceExtensions.emplace_back("VK_KHR_surface");
+    instanceExtensions.emplace_back("VK_KHR_display");
 
     appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -71,16 +70,16 @@ VkResult VulkanApp::init() {
     appInfo.applicationVersion = 1.0;
     appInfo.apiVersion = VK_API_VERSION_1_3;
 
-    // const char *instaceExtensions[] {"VK_KHR_surface", "VK_KHR_display"};
-    const char *enabledLayers[] {"VK_LAYER_KHRONOS_validation"};
+    vector<const char *> enabledLayers;
+    enabledLayers.emplace_back("VK_LAYER_KHRONOS_validation");
 
     instanceCreateInfo = {};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pApplicationInfo = &appInfo;
     instanceCreateInfo.enabledExtensionCount = instanceExtensions.size();
     instanceCreateInfo.ppEnabledExtensionNames = instanceExtensions.data();
-    instanceCreateInfo.enabledLayerCount = 1;
-    instanceCreateInfo.ppEnabledLayerNames = enabledLayers;
+    instanceCreateInfo.enabledLayerCount = enabledLayers.size();
+    instanceCreateInfo.ppEnabledLayerNames = enabledLayers.data();
 
     auto result = vkCreateInstance(&instanceCreateInfo, nullptr, &mInstance);
 
@@ -89,8 +88,7 @@ VkResult VulkanApp::init() {
 
         if (physicalDeviceCount) {
             physicalDeviceCount = 1;
-            vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &mPhysicalDevice);
-
+            vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, &phyDevice);
         }
     }
 
@@ -108,16 +106,17 @@ VkResult VulkanApp::createDevice() {
     qi.queueCount = 1;
     qi.pQueuePriorities = &priority;
 
-    const char *deviceExtensions[] {"VK_KHR_swapchain"};
+    vector<const char *> deviceExtensions;
+    deviceExtensions.emplace_back("VK_KHR_swapchain");
 
     VkDeviceCreateInfo  di {};
     di.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     di.queueCreateInfoCount = 1;
     di.pQueueCreateInfos = &qi;
-    di.enabledExtensionCount = 1;
-    di.ppEnabledExtensionNames = deviceExtensions;
+    di.enabledExtensionCount = deviceExtensions.size();
+    di.ppEnabledExtensionNames = deviceExtensions.data();
 
-    auto result = vkCreateDevice(mPhysicalDevice, &di, nullptr, &device);
+    auto result = vkCreateDevice(phyDevice, &di, nullptr, &device);
     physicalDeviceInformation();
 
     return result;
@@ -125,7 +124,7 @@ VkResult VulkanApp::createDevice() {
 
 void VulkanApp::checkPhysicalMemory() {
     VkPhysicalDeviceMemoryProperties p;
-    vkGetPhysicalDeviceMemoryProperties(mPhysicalDevice, &p);
+    vkGetPhysicalDeviceMemoryProperties(phyDevice, &p);
 
     std::cout << "MEM COUNT " << p.memoryTypeCount << "\n\n";
     auto count = 0;
@@ -187,9 +186,9 @@ void VulkanApp::checkPhysicalMemory() {
 }
 
 void VulkanApp::checkQueues() {
-    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(phyDevice, &queueFamilyPropertiesCount, nullptr);
     queueFamilyProperties.resize(queueFamilyPropertiesCount);
-    vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevice, &queueFamilyPropertiesCount, queueFamilyProperties.data());
+    vkGetPhysicalDeviceQueueFamilyProperties(phyDevice, &queueFamilyPropertiesCount, queueFamilyProperties.data());
     std::cout << "QUEUE HOW MANY " << queueFamilyProperties[0].queueCount << "\n";
 
     for (auto& a : queueFamilyProperties) {
@@ -242,19 +241,23 @@ VkResult VulkanApp::createSwapChain() {
 }
 
 VkResult VulkanApp::createWindow() {
-	// We initialize SDL and create a window with it.
+	  // We initialize SDL and create a window with it.
+    vector<const char *> sdlInstanceExtentions;
+    unsigned int count;
+    // SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
     // SDL_Vulkan_GetInstanceExtensions(_window, &count, sdlInstanceExtentions);
     // for (int i = 0; i < count; i++)
     //     cout << "-> " << sdlInstanceExtentions[i] << "\n";
     /****
     Display *dpy = XOpenDisplay(NULL);
 
-    VkXlibSurfaceCreateInfoKHR surfCreateInfo = {VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR};
+    VkDisplaySurfaceCreateInfoKHR surfCreateInfo = {};
+    VkDisplaySurfaceCreateInfoKHR surfCreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
     surfCreateInfo.dpy = dpy;
     surfCreateInfo.window = (Window)_windowHandle;
 
     int scr = DefaultScreen( dpy );
-    if (!vkGetPhysicalDeviceXlibPresentationSupportKHR(mDevice->mPhysicalDevice, mDevice->mGraphicsQueue.mFamilyIdx, dpy, DefaultVisual(dpy, scr)->visualid))
+    if (!vkGetPhysicalDeviceXlibPresentationSupportKHR(mDevice->phyDevice, mDevice->mGraphicsQueue.mFamilyIdx, dpy, DefaultVisual(dpy, scr)->visualid))
     {
         cout << "Vulkan not supported on given X11 window\n";
     }
@@ -265,43 +268,41 @@ SDL_// Vulkan_CreateSurface(_window, (SDL_vulkanInstance)mInstance, (SDL_vulkanS
         cout << "SURFACE IS NOT NULL\n";
     else
         cout << "SURFACE IS NULL\n";
-
     ****/
+
     return VK_SUCCESS;
 }
 
-/****
-void VulkanEngine::cleanup()
-{
-	if (_isInitialized) {
+// void VulkanEngine::cleanup()
+// {
+// 	if (_isInitialized) {
+//
+// 		SDL_DestroyWindow(_window);
+// 	}
+// }
 
-		SDL_DestroyWindow(_window);
-	}
-}
-
-void VulkanEngine::draw()
-{
-	//nothing yet
-}
-****/
+// void VulkanEngine::draw()
+// {
+// 	//nothing yet
+// }
 
 void VulkanApp::run() {
-	SDL_Event e;
-	bool bQuit = false;
+    SDL_Event e;
+    bool bQuit = false;
 
-	//main loop
-	while (!bQuit) {
-    while (SDL_PollEvent(&e) != 0) {
-			if (e.type == SDL_QUIT) bQuit = true;
-			if (e.key.keysym.sym == SDLK_ESCAPE) bQuit = true;
-		}
-		// draw();
-	}
+    //main loop
+    while (!bQuit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) bQuit = true;
+            if (e.key.keysym.sym == SDLK_ESCAPE) bQuit = true;
+        }
+      // draw();
+    }
 }
 
 void VulkanApp::physicalDeviceInformation() {
     VkPhysicalDeviceProperties pdp;
-    vkGetPhysicalDeviceProperties(mPhysicalDevice, &pdp);
+    vkGetPhysicalDeviceProperties(phyDevice, &pdp);
 
     cout << "API Version " << VK_VERSION_MAJOR(pdp.apiVersion) << ".";
     cout << VK_VERSION_MINOR(pdp.apiVersion) << "\n";
@@ -322,3 +323,4 @@ void VulkanApp::physicalDeviceInformation() {
             cout << "GPU INTEGRATED IN MD\n";
     }
 }
+
