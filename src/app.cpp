@@ -14,6 +14,9 @@ void VulkanApp::setUp() {
     std::cout << "\n* device\n";
     createDevice();
 
+    std::cout << "\n* device info\n";
+    physicalDeviceInformation();
+
     std::cout << "\n* queues\n";
     checkQueues();
 
@@ -117,7 +120,6 @@ VkResult VulkanApp::createDevice() {
     di.ppEnabledExtensionNames = deviceExtensions.data();
 
     auto result = vkCreateDevice(phyDevice, &di, nullptr, &device);
-    physicalDeviceInformation();
 
     return result;
 }
