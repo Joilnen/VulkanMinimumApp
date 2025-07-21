@@ -26,7 +26,7 @@ set(CMAKE_RANLIB  "/usr/bin/llvm-ranlib")
 
 project(VulkanMinimumApp VERSION 0.1)
 
-add_definitions("-std=c++20")
+add_definitions("-std=c++23")
 add_executable(vulkanminimum main.cpp app.cpp)
 
 target_link_libraries(vulkanminimum vulkan SDL2)

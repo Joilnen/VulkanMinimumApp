@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <print>
 #include "app.h"
 
 using namespace std;
