@@ -6,6 +6,9 @@
 
 #include <vector>
 #include <vulkan/vulkan.h>
+#include <glm/glm.hpp>
+
+using namespace glm;
 
 #define VK_USE_PLATFORM_XLIB_KHR
 
@@ -48,6 +51,32 @@ class VulkanApp {
     bool _isWindowCreated { false };
     VkResult createDevice();
     VkResult createSwapChain();
+
+    typedef struct {
+        uint32_t graphics_family;
+        uint32_t present_family;
+        bool has_graphics_family;
+        bool has_present_family;
+    } QueueFamilyIndices;
+
+    typedef struct {
+        VkSurfaceCapabilitiesKHR capabilities;
+        uint32_t formats_count;
+        uint32_t present_modes_count;
+        VkSurfaceFormatKHR* formats;
+        VkPresentModeKHR* present_modes;
+    } SwapChainSupportDetails;
+
+    typedef struct {
+        vec2 pos;
+        vec3 color;
+    } Vertex;
+
+    typedef struct {
+        mat4 model;
+        mat4 view;
+        mat4 proj;
+    } UniformBufferObject;
 
     public:
         VkResult init();

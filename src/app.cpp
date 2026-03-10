@@ -218,6 +218,7 @@ void VulkanApp::checkQueues() {
 }
 
 VkResult VulkanApp::createSwapChain() {
+
     VkSwapchainCreateInfoKHR createSwapchainInfo {};
     createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     createSwapchainInfo.surface = _surface;
@@ -239,6 +240,16 @@ VkResult VulkanApp::createSwapChain() {
     vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr);
     _images = new VkImage[count];
     auto result = vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
+
+    /****
+	vkGetSwapchainImagesKHR(device, swap_chain, &swap_chain_images_count, swap_chain_images);
+
+	swap_chain_image_format = surface_format.format;
+
+	free_swap_chain_support(&swap_chain_support);
+    ****/
+
+	printf(" Swap chain created\n");
 
     return result;
 }
