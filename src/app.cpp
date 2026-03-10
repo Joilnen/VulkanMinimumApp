@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cassert>
 #include <print>
+#include <cstring>
+#include <cstdlib>
 #include "app.h"
 
 using namespace std;
@@ -21,7 +23,7 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    // std::cout << "\nx create swapchain (not working yet)\n";
+    // std::cout << "\n* create swapchain (not working yet)\n";
     // createSwapChain();
 }
 
@@ -338,3 +340,49 @@ void VulkanApp::physicalDeviceInformation() {
     }
 }
 
+SwapChainSupportDetails VulkanApp::querySwapChain(VkPhysicalDevice device) {
+    SwapChainSupportDetails details = {};
+
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(phyDevice, _surface, &details.capabilities);
+
+    vkGetPhysicalDeviceSurfaceFormatsKHR(phyDevice, _surface, &details.formats_count, NULL);
+    details.formats = new VkSurfaceFormatKHR[details.formats_count];
+    vkGetPhysicalDeviceSurfaceFormatsKHR(phyDevice, _surface, &details.formats_count, details.formats);
+
+    vkGetPhysicalDeviceSurfacePresentModesKHR(phyDevice, _surface, &details.present_modes_count, NULL);
+    details.present_modes = new VkPresentModeKHR[details.present_modes_count];
+    vkGetPhysicalDeviceSurfacePresentModesKHR(phyDevice, _surface, &details.present_modes_count, details.present_modes);
+
+    return details;
+}
+
+/****
+void VulkanApp::createImageViews() {
+	swap_chain_image_views_count = swap_chain_images_count;
+	swap_chain_image_views = malloc(sizeof(VkImageView) * swap_chain_image_views_count);
+
+	for (size_t i = 0; i < swap_chain_image_views_count; i++) {
+		VkImageViewCreateInfo create_info = {0};
+		create_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		create_info.image = swap_chain_images[i];
+		create_info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		create_info.format = swap_chain_image_format;
+		create_info.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		create_info.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		create_info.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		create_info.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		create_info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		create_info.subresourceRange.baseMipLevel = 0;
+		create_info.subresourceRange.levelCount = 1;
+		create_info.subresourceRange.baseArrayLayer = 0;
+		create_info.subresourceRange.layerCount = 1;
+
+		if (vkCreateImageView(device, &create_info, NULL, &swap_chain_image_views[i]) != VK_SUCCESS) {
+			fprintf(stderr, "failed to create image views!");
+			exit(1);
+		}
+	}
+
+	printf(" Image views created\n");
+}
+****/

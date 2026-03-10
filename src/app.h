@@ -12,6 +12,33 @@ using namespace glm;
 
 #define VK_USE_PLATFORM_XLIB_KHR
 
+struct SwapChainSupportDetails {
+    VkSurfaceCapabilitiesKHR capabilities;
+    uint32_t formats_count;
+    uint32_t present_modes_count;
+    VkSurfaceFormatKHR* formats;
+    VkPresentModeKHR* present_modes;
+};
+
+struct QueueFamilyIndices {
+    uint32_t graphics_family;
+    uint32_t present_family;
+    bool has_graphics_family;
+    bool has_present_family;
+};
+
+
+struct Vertex {
+    vec2 pos;
+    vec3 color;
+};
+
+struct UniformBufferObject {
+    mat4 model;
+    mat4 view;
+    mat4 proj;
+};
+
 class VulkanApp {
 
     // instance
@@ -52,31 +79,7 @@ class VulkanApp {
     VkResult createDevice();
     VkResult createSwapChain();
 
-    typedef struct {
-        uint32_t graphics_family;
-        uint32_t present_family;
-        bool has_graphics_family;
-        bool has_present_family;
-    } QueueFamilyIndices;
-
-    typedef struct {
-        VkSurfaceCapabilitiesKHR capabilities;
-        uint32_t formats_count;
-        uint32_t present_modes_count;
-        VkSurfaceFormatKHR* formats;
-        VkPresentModeKHR* present_modes;
-    } SwapChainSupportDetails;
-
-    typedef struct {
-        vec2 pos;
-        vec3 color;
-    } Vertex;
-
-    typedef struct {
-        mat4 model;
-        mat4 view;
-        mat4 proj;
-    } UniformBufferObject;
+    SwapChainSupportDetails querySwapChain(VkPhysicalDevice device);
 
     public:
         VkResult init();
