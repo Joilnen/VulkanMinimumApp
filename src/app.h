@@ -72,7 +72,8 @@ class VulkanApp {
 
     SDL_Window *_window { nullptr };
     size_t _windowHandle;
-    SDL_vulkanSurface _surface;
+    // SDL_vulkanSurface _surface;
+    VkSurfaceKHR _surface;
     VkExtent2D _windowExtent;
 
     bool _isWindowCreated { false };

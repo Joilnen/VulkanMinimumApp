@@ -23,8 +23,8 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    // std::cout << "\n* create swapchain (not working yet)\n";
-    // createSwapChain();
+    std::cout << "\n* create swapchain (not working yet)\n";
+    createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -74,7 +74,7 @@ VkResult VulkanApp::init() {
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = "Application";
     appInfo.applicationVersion = 1.0;
-    appInfo.apiVersion = VK_API_VERSION_1_3;
+    appInfo.apiVersion = VK_API_VERSION_1_4;
 
     vector<const char *> enabledLayers;
     enabledLayers.emplace_back("VK_LAYER_KHRONOS_validation");
@@ -221,6 +221,7 @@ void VulkanApp::checkQueues() {
 
 VkResult VulkanApp::createSwapChain() {
 
+
     VkSwapchainCreateInfoKHR createSwapchainInfo {};
     createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     createSwapchainInfo.surface = _surface;
@@ -231,11 +232,13 @@ VkResult VulkanApp::createSwapChain() {
     createSwapchainInfo.imageArrayLayers = 1;
     createSwapchainInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
     createSwapchainInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+    createSwapchainInfo.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+    createSwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
     // vkCreateSwapchainKHR()
     VkSwapchainKHR swapchain = nullptr;
 
-    std::cout << "Codigo de erro SWAPCHAIN " << vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
+    vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
     std::cout << "\n";
 
     uint32_t count;
@@ -251,13 +254,13 @@ VkResult VulkanApp::createSwapChain() {
 	free_swap_chain_support(&swap_chain_support);
     ****/
 
-	printf(" Swap chain created\n");
+	println("Swap chain created");
 
     return result;
 }
 
 VkResult VulkanApp::createWindow() {
-	  // We initialize SDL and create a window with it.
+	// We initialize SDL and create a window with it.
     vector<const char *> sdlInstanceExtentions;
     unsigned int count;
     // SDL_Vulkan_GetInstanceExtensions(_window, &count, nullptr);
@@ -312,7 +315,7 @@ void VulkanApp::run() {
             if (e.type == SDL_QUIT) bQuit = true;
             if (e.key.keysym.sym == SDLK_ESCAPE) bQuit = true;
         }
-      // draw();
+        // draw();
     }
 }
 

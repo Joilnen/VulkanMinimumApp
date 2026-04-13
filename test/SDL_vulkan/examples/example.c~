@@ -412,7 +412,7 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
         return 1;
     }
-    SDL_Window* window = SDL_CreateWindow("Vulkan Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 1024, 0);
+    SDL_Window* window = SDL_CreateWindow("Vulkan Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 700, 0);
 
     vulkan_main(window);
     return 0;

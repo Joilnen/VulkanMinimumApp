@@ -80,14 +80,14 @@ class Vulkan
         void createCommandPool();
 
         vector<VkCommandBuffer> commandBuffers;
-	void createCommandBuffers();
+	    void createCommandBuffers();
 
         VkSemaphore imageAvailableSemaphore;
         VkSemaphore renderingFinishedSemaphore;
-	void create_semaphores();
+	    void create_semaphores();
 
         vector<VkFence> fences;
-	void createFences();
+	    void createFences();
 };
 
 void init_vulkan_extern(Vulkan *vulkan);
