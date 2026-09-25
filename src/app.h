@@ -73,7 +73,7 @@ class VulkanApp {
     SDL_Window *_window { nullptr };
     size_t _windowHandle;
     // SDL_vulkanSurface _surface;
-    VkSurfaceKHR _surface;
+    VkSurfaceKHR _surface {VK_NULL_HANDLE};
     VkExtent2D _windowExtent;
 
     bool _isWindowCreated { false };
@@ -81,6 +81,17 @@ class VulkanApp {
     VkResult createSwapChain();
 
     SwapChainSupportDetails querySwapChain(VkPhysicalDevice device);
+
+    // Debug
+    // VkDebugReportCallbackEXT debugCallback;
+    void createDebug();
+
+    VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+        void* pUserData
+    );
 
     public:
         VkResult init();

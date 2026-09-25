@@ -23,8 +23,8 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    std::cout << "\n* create swapchain (not working yet)\n";
-    createSwapChain();
+    // std::cout << "\n* create swapchain (not working yet)\n";
+    // createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -221,10 +221,10 @@ void VulkanApp::checkQueues() {
 
 VkResult VulkanApp::createSwapChain() {
 
-
     VkSwapchainCreateInfoKHR createSwapchainInfo {};
     createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     createSwapchainInfo.surface = _surface;
+    createSwapchainInfo.flags = 0;
     createSwapchainInfo.minImageCount = 4;
     createSwapchainInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
     createSwapchainInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
@@ -234,8 +234,8 @@ VkResult VulkanApp::createSwapChain() {
     createSwapchainInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
     createSwapchainInfo.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
     createSwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    createSwapchainInfo.queueFamilyIndexCount = 1;
 
-    // vkCreateSwapchainKHR()
     VkSwapchainKHR swapchain = nullptr;
 
     vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
@@ -245,14 +245,6 @@ VkResult VulkanApp::createSwapChain() {
     vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr);
     _images = new VkImage[count];
     auto result = vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
-
-    /****
-	vkGetSwapchainImagesKHR(device, swap_chain, &swap_chain_images_count, swap_chain_images);
-
-	swap_chain_image_format = surface_format.format;
-
-	free_swap_chain_support(&swap_chain_support);
-    ****/
 
 	println("Swap chain created");
 
@@ -357,6 +349,49 @@ SwapChainSupportDetails VulkanApp::querySwapChain(VkPhysicalDevice device) {
     vkGetPhysicalDeviceSurfacePresentModesKHR(phyDevice, _surface, &details.present_modes_count, details.present_modes);
 
     return details;
+}
+
+void VulkanApp::createDebug() {
+    VkDebugReportCallbackCreateInfoEXT debugInfo = {};
+    debugInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
+    // debugInfo.pfnCallback = debugFunction;
+    debugInfo.pUserData = nullptr;
+    debugInfo.pNext = nullptr;
+    debugInfo.flags = VK_DEBUG_REPORT_WARNING_BIT_EXT |
+                      VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
+                      VK_DEBUG_REPORT_ERROR_BIT_EXT |
+                      VK_DEBUG_REPORT_DEBUG_BIT_EXT;
+
+    // VkResut result = dbgCreateDebugReportCallback(mInstance, &debugInfo, nullptr, &debugCallback);
+
+    return;
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL VulkanApp::debugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+        void* pUserData
+) {
+    // Ignorar mensagens informativas (opcional)
+    if (messageSeverity < VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+        return VK_FALSE;
+    }
+
+    // Prefixo de severidade
+    const char* severityStr = "INFO";
+    if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+        severityStr = "WARNING";
+    } else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+        severityStr = "ERROR";
+    }
+
+    std::cerr << "[Vulkan " << severityStr << "] "
+              << pCallbackData->pMessage << std::endl;
+
+    // Retorne VK_FALSE para não abortar a chamada que gerou a mensagem.
+    // Retorne VK_TRUE apenas se quiser forçar a parada em caso de erro.
+    return VK_FALSE;
 }
 
 /****

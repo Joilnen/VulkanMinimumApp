@@ -21,7 +21,7 @@ void vulkan_main(SDL_Window *window) {
 
         {
             unsigned c = 64 - extension_count;
-            if (!SDL_GetVulkanInstanceExtensions(&c, &extension_names[extension_count])) {
+            if (!SDL_Vulkan_GetInstanceExtensions(&c, &extension_names[extension_count])) {
                 fprintf(stderr, "SDL_GetVulkanInstanceExtensions failed: %s\n", SDL_GetError());
                 exit(1);
             }
@@ -40,7 +40,7 @@ void vulkan_main(SDL_Window *window) {
     }
 
     VkSurfaceKHR surface;
-    if (!SDL_CreateVulkanSurface(window, inst, &surface)) {
+    if (!SDL_Vulkan_CreateSurface(window, inst, &surface)) {
         fprintf(stderr, "SDL_CreateVulkanSurface failed: %s\n", SDL_GetError());
         exit(1);
     }
