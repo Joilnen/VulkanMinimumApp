@@ -23,8 +23,8 @@ void VulkanApp::setUp() {
     std::cout << "\n* queues\n";
     checkQueues();
 
-    // std::cout << "\n* create swapchain (not working yet)\n";
-    // createSwapChain();
+    std::cout << "\n* create swapchain (not working yet)\n";
+    createSwapChain();
 }
 
 void VulkanApp::shutDown() {
@@ -51,12 +51,12 @@ VkResult VulkanApp::init() {
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN);
 
     _window = SDL_CreateWindow(
-          "Vulkan Engine",
-          SDL_WINDOWPOS_UNDEFINED,
-          SDL_WINDOWPOS_UNDEFINED,
-          _windowExtent.width,
-          _windowExtent.height,
-          window_flags
+        "Vulkan Engine",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        _windowExtent.width,
+        _windowExtent.height,
+        window_flags
     );
 
     _isWindowCreated = true;
@@ -134,8 +134,7 @@ void VulkanApp::checkPhysicalMemory() {
     std::cout << "MEM COUNT " << p.memoryTypeCount << "\n\n";
     auto count = 0;
     for (auto& a : p.memoryTypes) {
-        if (a.propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
-        {
+        if (a.propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) {
             std::cout << "COUNTER " << count++ << "\n";
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT\n";
@@ -145,8 +144,8 @@ void VulkanApp::checkPhysicalMemory() {
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
 
         }
-        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
-        {
+
+        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) {
             std::cout << "COUNTER " << count++ << "\n";
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT\n";
@@ -155,8 +154,8 @@ void VulkanApp::checkPhysicalMemory() {
                 if (count2++ == a.heapIndex)
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
         }
-        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT)
-        {
+
+        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) {
             std::cout << "COUNTER " << count++ << "\n";
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_HOST_COHERENT_BIT\n";
@@ -165,8 +164,8 @@ void VulkanApp::checkPhysicalMemory() {
                 if (count2++ == a.heapIndex)
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
         }
-        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT)
-        {
+
+        if (a.propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT) {
             std::cout << "COUNTER " << count++ << "\n";
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_HOST_CACHED_BIT\n";
@@ -175,8 +174,8 @@ void VulkanApp::checkPhysicalMemory() {
                 if (count2++ == a.heapIndex)
                     std::cout << "SIZE " << p.memoryHeaps[a.heapIndex].size << "\n\n";
         }
-        if (a.propertyFlags & VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT)
-        {
+
+        if (a.propertyFlags & VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT) {
             std::cout << "COUNTER " << count++ << "\n";
             std::cout << "HEAP INDEX " << a.heapIndex << "\n";
             std::cout << "VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT\n";
@@ -222,10 +221,13 @@ void VulkanApp::checkQueues() {
 VkResult VulkanApp::createSwapChain() {
 
     VkSwapchainCreateInfoKHR createSwapchainInfo {};
+    VkSwapchainKHR swapchain = nullptr;
+
+
     createSwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     createSwapchainInfo.surface = _surface;
     createSwapchainInfo.flags = 0;
-    createSwapchainInfo.minImageCount = 4;
+    createSwapchainInfo.minImageCount = 2;
     createSwapchainInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
     createSwapchainInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
     createSwapchainInfo.imageExtent = _windowExtent;
@@ -236,17 +238,15 @@ VkResult VulkanApp::createSwapChain() {
     createSwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
     createSwapchainInfo.queueFamilyIndexCount = 1;
 
-    VkSwapchainKHR swapchain = nullptr;
-
     vkCreateSwapchainKHR(device, &createSwapchainInfo, nullptr, &swapchain);
-    std::cout << "\n";
+	println("Swap chain created");
 
     uint32_t count;
     vkGetSwapchainImagesKHR(device, swapchain, &count, nullptr);
+    println("Numero de imagens {}", count);
+
     _images = new VkImage[count];
     auto result = vkGetSwapchainImagesKHR(device, swapchain, &count, _images);
-
-	println("Swap chain created");
 
     return result;
 }
@@ -380,6 +380,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanApp::debugCallback(
 
     // Prefixo de severidade
     const char* severityStr = "INFO";
+
     if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         severityStr = "WARNING";
     } else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
